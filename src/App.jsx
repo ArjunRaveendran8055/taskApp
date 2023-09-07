@@ -4,19 +4,30 @@ import "./App.css";
 const App = () => {
   const [input, setInput] = useState("");
   const [tasklist, setTasklist] = useState([]);
+  const [display,setDisplay]=useState(false)
 
   const submitHandler = () => {
     if (input == "") return;
     if (tasklist == []) return;
-    setTasklist([...tasklist, input]);
+    
+    setTasklist([...tasklist,input]);
+    setDisplay(true)
     console.log(tasklist);
     setInput("");
   };
 
-  const deleteHandler = (e) => {
+  const deleteHandler = (ind) => {
+    console.log("event")
+    if(!tasklist){
+      setTasklist([])
+      console.log("hit")
+      setDisplay(false)
+      console.log("display",display)
+      return;
+    }
     setTasklist([
       tasklist.filter((item, index) => {
-        if (index != e.target.value) {
+        if (index != ind) {
           return item;
         }
       }),
@@ -45,27 +56,27 @@ const App = () => {
           </button>
         </div>
       </div>
-      {tasklist == "" ? (
+      {!display? (
         <div>
           <h1>No items...</h1>
         </div>
       ) : (
-        <div className="list-main">
-          {tasklist.map((item, index) => {
+        
+          tasklist.map((item, index) => {
             return (
               <div className="list-row" key={index}>
-                <p>{item}</p>
+                <p className="item">{item}</p>
                 <button
                   value={index}
                   className="del-btn"
-                  onClick={deleteHandler}
+                  onClick={(e)=>{deleteHandler(index)}}
                 >
-                  delete
+                  delete{console.log(tasklist)}
                 </button>
               </div>
             );
-          })}
-        </div>
+          })
+        
       )}
     </div>
   );
