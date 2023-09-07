@@ -4,34 +4,25 @@ import "./App.css";
 const App = () => {
   const [input, setInput] = useState("");
   const [tasklist, setTasklist] = useState([]);
-  const [display,setDisplay]=useState(false)
 
   const submitHandler = () => {
     if (input == "") return;
-    if (tasklist == []) return;
+    if (!tasklist) return;
     
     setTasklist([...tasklist,input]);
-    setDisplay(true)
     console.log(tasklist);
     setInput("");
   };
 
   const deleteHandler = (ind) => {
-    console.log("event")
-    if(!tasklist){
-      setTasklist([])
-      console.log("hit")
-      setDisplay(false)
-      console.log("display",display)
-      return;
-    }
-    setTasklist([
+    console.log("array is",tasklist)
+    setTasklist(
       tasklist.filter((item, index) => {
         if (index != ind) {
           return item;
         }
       }),
-    ]);
+    );
     setInput("");
   };
 
@@ -39,7 +30,11 @@ const App = () => {
     <div className="main-container">
       <div className="form-container">
         <div className="heading">
-          <h1>Let's Finish What You Have!</h1>
+          <h1>Let's Finish What You Have <i
+  className="fa-solid fa-cart-arrow-down fa-shake"
+  style={{ color: "#07065a" }}
+/>
+</h1>
         </div>
         <div className="add">
           <input
@@ -56,9 +51,9 @@ const App = () => {
           </button>
         </div>
       </div>
-      {!display? (
+      {tasklist.length==0? (
         <div>
-          <h1>No items...</h1>
+          <h1>No Pending Tasks ...</h1>
         </div>
       ) : (
         
