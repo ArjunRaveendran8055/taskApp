@@ -30,7 +30,7 @@ const App = () => {
     <div className="main-container">
       <div className="form-container">
         <div className="heading">
-          <h1>Let's Finish What You Have <i
+          <h1>Let's Finish What You Have! <i
   className="fa-solid fa-cart-arrow-down fa-shake"
   style={{ color: "#07065a" }}
 />
