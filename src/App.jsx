@@ -5,7 +5,6 @@ const App = () => {
   const [input, setInput] = useState("");
   const [tasklist, setTasklist] = useState([]);
   const [textstatus, setTextstatus] = useState(true);
-  const [complete, setComplete] = useState(false);
   const submitHandler = () => {
     if (input == "") {
       setTextstatus(false);
@@ -38,7 +37,6 @@ const App = () => {
       if (index == ind) {
         console.log("hitt");
         return { ...item, complete: !item.complete };
-        console.log(item);
       }
       return item
     });
