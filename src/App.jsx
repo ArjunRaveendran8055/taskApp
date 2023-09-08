@@ -5,7 +5,6 @@ const App = () => {
   const [input, setInput] = useState("");
   const [tasklist, setTasklist] = useState([]);
   const [textstatus, setTextstatus] = useState(true);
-  const [checkActive,setCheckActive]=useState(false)
   const submitHandler = () => {
     if (input == "") {
       setTextstatus(false)
@@ -32,9 +31,15 @@ const App = () => {
     setInput(e.target.value.toUpperCase());
   };
 
-  const checkHandler = (e) => {
-    setCheckActive(true)
-  };
+  const taskCompletionHandler=(ind)=>{
+    tasklist.map((item,index)=>{
+      if(item.index===ind){
+        return {item,complete: !complete}
+      }
+      return item;
+      console.log("tasklists in complete handler",tasklist)
+    })
+  }
 
   return (
     <div className="main-container">
@@ -74,7 +79,7 @@ const App = () => {
             <div className="list-row" key={index}>
               <p className="item" style={{textDecoration: checkActive? 'line-through':'none'}}>{item}</p>
               <div className="btn-div">
-                <button className="check-btn" onClick={checkHandler}>
+                <button className="check-btn" onClick={(e)=>{taskCompletionHandler(index)}}>
                   <i
                     className="fa-solid fa-square-check fa-2xl"
                     style={{ color: "#076e0e" }}
