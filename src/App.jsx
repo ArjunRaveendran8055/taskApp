@@ -5,13 +5,15 @@ const App = () => {
   const [input, setInput] = useState("");
   const [tasklist, setTasklist] = useState([]);
   const [textstatus, setTextstatus] = useState(true);
+  const [complete, setComplete] = useState(false);
   const submitHandler = () => {
     if (input == "") {
-      setTextstatus(false)
+      setTextstatus(false);
+      alert("Please enter a task")
       return;
     }
     if (!tasklist) return;
-    setTasklist([...tasklist, input]);
+    setTasklist([...tasklist, { task: input, complete: false }]);
     setInput("");
   };
 
@@ -27,19 +29,21 @@ const App = () => {
   };
 
   const onChangeHandler = (e) => {
-    setTextstatus(true)
+    setTextstatus(true);
     setInput(e.target.value.toUpperCase());
   };
 
-  const taskCompletionHandler=(ind)=>{
-    tasklist.map((item,index)=>{
-      if(item.index===ind){
-        return {item,complete: !complete}
+  const taskCompletionHandler = (ind) => {
+    const newArray = tasklist.map((item, index) => {
+      if (index == ind) {
+        console.log("hitt");
+        return { ...item, complete: !item.complete };
+        console.log(item);
       }
-      return item;
-      console.log("tasklists in complete handler",tasklist)
-    })
-  }
+      return item
+    });
+    setTasklist(newArray)
+  };
 
   return (
     <div className="main-container">
@@ -62,7 +66,7 @@ const App = () => {
             onChange={(e) => {
               onChangeHandler(e);
             }}
-            style={{background:textstatus?"white":"#FFCCCB"}}
+            style={{ background: textstatus ? "white" : "#FFCCCB" }}
           />
           <button className="btn" onClick={submitHandler}>
             Add
@@ -77,9 +81,21 @@ const App = () => {
         tasklist.map((item, index) => {
           return (
             <div className="list-row" key={index}>
-              <p className="item" style={{textDecoration: checkActive? 'line-through':'none'}}>{item}</p>
+              <p
+                className="item"
+                style={{
+                  textDecoration: item.complete ? "line-through" : "none",
+                }}
+              >
+                {item.task}
+              </p>
               <div className="btn-div">
-                <button className="check-btn" onClick={(e)=>{taskCompletionHandler(index)}}>
+                <button
+                  className="check-btn"
+                  onClick={(e) => {
+                    taskCompletionHandler(index);
+                  }}
+                >
                   <i
                     className="fa-solid fa-square-check fa-2xl"
                     style={{ color: "#076e0e" }}
