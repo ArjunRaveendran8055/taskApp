@@ -1,10 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 
 const App = () => {
   const [input, setInput] = useState("");
-  const [tasklist, setTasklist] = useState([]);
   const [textstatus, setTextstatus] = useState(true);
+  const [tasklist, setTasklist] = useState(()=>{
+    const key=Object.keys(localStorage)
+    let storedTasks=[]
+    //let i=key.length
+    console.log("keys are :",key)
+    key.map((task,index)=>{
+      storedTasks.push({task:localStorage.getItem(`${task}`),complete:false})
+    })
+    console.log("list of items are",storedTasks.sort());
+    console.log("stored tasks are",storedTasks)
+    return storedTasks.length!=0 ? [...storedTasks] :  []
+  });
+
+
+
+
+
   const submitHandler = () => {
     if (input == "") {
       setTextstatus(false);
@@ -13,16 +29,24 @@ const App = () => {
     }
     if (!tasklist) return;
     setTasklist([...tasklist, { task: input, complete: false }]);
+    localStorage.setItem(`${input}`,input)
     setInput("");
   };
 
-  const deleteHandler = (ind) => {
+  const deleteHandler = (itm,ind) => {
+    tasklist.map((item,index)=>{
+      if(item.task===itm.task){
+        console.log("items are",itm,item)
+        localStorage.removeItem(`${item.task}`)
+      }
+    })
     setTasklist(
       tasklist.filter((item, index) => {
         if (index != ind) {
           return item;
         }
       })
+    
     );
     setInput("");
   };
@@ -103,7 +127,7 @@ const App = () => {
                   value={index}
                   className="del-btn"
                   onClick={(e) => {
-                    deleteHandler(index);
+                    deleteHandler(item,index);
                   }}
                 >
                   <i
