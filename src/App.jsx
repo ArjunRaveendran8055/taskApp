@@ -8,15 +8,14 @@ const App = () => {
     const key=Object.keys(localStorage)
     let storedTasks=[]
     //let i=key.length
-    console.log("keys are :",key)
+    //console.log("keys are :",key)
     key.map((task,index)=>{
       storedTasks.push({task:localStorage.getItem(`${task}`),complete:false})
     })
-    console.log("list of items are",storedTasks.sort());
-    console.log("stored tasks are",storedTasks)
+    //console.log("list of items are",storedTasks.sort());
+    //console.log("stored tasks are",storedTasks)
     return storedTasks.length!=0 ? [...storedTasks] :  []
   });
-
 
 
 
@@ -30,13 +29,14 @@ const App = () => {
     if (!tasklist) return;
     setTasklist([...tasklist, { task: input, complete: false }]);
     localStorage.setItem(`${input}`,input)
+    console.log(`ne endhina task add cheyane ne athinu ${input} vallathum cheyyo. endhina inghane thallane @Aiswarya Rengan😌`)
     setInput("");
   };
 
   const deleteHandler = (itm,ind) => {
     tasklist.map((item,index)=>{
       if(item.task===itm.task){
-        console.log("items are",itm,item)
+        //console.log("items are",itm,item)
         localStorage.removeItem(`${item.task}`)
       }
     })
@@ -59,7 +59,7 @@ const App = () => {
   const taskCompletionHandler = (ind) => {
     const newArray = tasklist.map((item, index) => {
       if (index == ind) {
-        console.log("hitt");
+        //console.log("hitt");
         return { ...item, complete: !item.complete };
       }
       return item
